@@ -1,0 +1,115 @@
+analise as 3 fotos nas fontes
+
+=======================
+Atue como um engenheiro de software, especialista em desenvolvimento de sistemas de informações acadêmicas, sênior em orientação a objetos, Princípios SOLID, Calisthenics, TDD e BDD.
+Me ajude a desenvolver estes dois problemas usando sdd, desde o início, criando o diretório, configurando o versionamento, o projeto, usando o visual studio code (code .), github copilot e github spec-kit. Vamos focar no primeiro projeto do primeiro grupo de alunos, onde são consultados os alunos com suas faltas, notas e CR.
+Você deve me entrevistar para quaisquer dúvidas, informações desconhecidas, premissas, riscos, etc.
+Você deve fazer uma pergunta de cada vez, nunca perguntando sobre mais de uma informação, dúvida ou conceito, de cada vez.
+Você deve rever a especificação, expandir as características da funcionalidade, rever o gherkin (BDD), expandindo a especificação, indo ao encontro do Spec-Driven Development.
+
+=======================
+P: Qual é a regra de negócio exata para o cálculo do CR (Coeficiente de Rendimento) exibido nesta tela? (Ele é apenas a média simples entre a P1 e P2 daquela disciplina atual, ou é um valor global consolidado que traz o histórico de todas as disciplinas do aluno?)
+
+R: sim, inicialmente vamos considerar que a média entre P1 e P2. Mas desejo que esta regra seja disponível em uma classe de PolíticaNotasMedia concreta, que implemente uma interface IPolíticaNotas.
+
+=======================
+P: Observando a sua tela na Foto 1, vemos a coluna de Presença com valores percentuais (ex: 87%, 30%, 99%). Como esse percentual de presença chega até esta listagem? (Ele será apenas consumido/consultado de um outro módulo legado da universidade, ou o nosso sistema também deverá ter a responsabilidade e os dados brutos de faltas aula a aula para calcular esse percentual em tempo real?)
+
+R: sim, deverá haver um módulo (feature) para chamada (preenchendo as faltas), mas não vamos nos ater a ele agora.
+Acredite que deve haver de alguma forma uma tabela em banco de dados contendo eventos de faltas dos alunos em disciplinas no dia.
+Além disso, a disciplina possui uma carga horária e um total de encontros (dias de aula), e isto deve estar persistido no banco de dados.
+Logo, é possível calcular a soma das faltas e a carga horária total da disciplina, permitindo assim calcular o percentual de faltas.
+
+=======================
+
+P: Como a lista de alunos na tabela deve ser ordenada por padrão assim que o professor seleciona a disciplina no dropdown? (Ela deve vir em ordem alfabética pelo Nome, em ordem crescente pela Matrícula, ou existe alguma outra regra de negócio para essa ordenação?)
+
+R: Ordem alfabética do nome do aluno
+
+=======================
+
+Olhando para a tabela de notas (P1 e P2) na Foto 1 e pensando em boas práticas de Orientação a Objetos e Object Calisthenics (onde evitamos tipos primitivos soltos e nulos não tratados):
+O que deve ser exibido na tabela e como o sistema deve tratar o cálculo do CR caso o aluno ainda não tenha realizado uma das provas (nota pendente)? (Exemplo: Se ele não fez a P2 ainda, a tela exibe um traço "-", e o CR não é calculado, ou consideramos nota "0" para o cálculo da média?)
+
+R: se qualquer nota não estiver disponível nunca calcule média nem CR, e apresente um traço '-'
+
+=======================
+
+P: Pensando na experiência de uso do professor e nas regras da universidade na hora de visualizar essa tabela de notas e presença:
+Existe alguma regra de negócio visual para destacar alunos que estão em situação crítica de aprovação? (Por exemplo: se o CR calculado for menor que 6.0, ou se a presença for menor que 75%, essas células ou a linha do aluno devem ser exibidas em uma cor de alerta, como vermelho, ou a formatação da tabela é sempre padrão e neutra para todos?)
+
+R: Acrescente uma coluna com a foto do aluno, e outra com status, que pode estar em branco, ou pode aparecer em fundo vermelho, letras brancas 'FALTAS'
+alternativamente, se as faltas for menor que 80%, apresentar 'FALTAS' também em fundo amarelo escuro.
+
+======================
+
+P: Para que o GitHub Copilot consiga gerar os testes unitários corretamente via /speckit.tasks e /speckit.implement
+, precisamos definir os limiares matemáticos dessa regra de negócio.
+Quais são os valores exatos de corte que definem uma "nota baixa" e uma "falta excessiva"? (Exemplo: O alerta de nota deve disparar se o CR for estritamente menor que 6.0? E o alerta de falta dispara se a presença for menor que 75% da carga horária?)
+
+R: nota menor que 7 (alertar BAIXA em amarelo)
+nota menor que 6 (alertar BAIXA em vermelho)
+frequência < 85% (alertar FALTAS em amarelo)
+frequência < 75% (alertar FALTAS em vermelho)
+
+=====================
+
+P: Para completarmos a definição do nosso stack e eu poder configurar o plano técnico com precisão cirúrgica:
+Sabendo que usaremos TypeScript, React no frontend e PostgreSQL no banco de dados, qual framework de backend (como NestJS, Express, Fastify, etc.) você prefere que utilizemos para construir a API que fornecerá os dados da turma?
+
+R: utilizar Express no backend, TDD deve ter como base os requisitos, as estórias (gherkin), o BDD deve partir do gherkin das estórias e os comportamentos possíveis da pagina.
+
+====================
+
+P: Para que o nosso backend em Express possa implementar o TDD correto para o Scenery 2 (onde garantimos que o professor só acesse a sua própria disciplina), ele precisa identificar inequivocamente quem está fazendo a requisição.
+Como o backend Express deverá identificar o professor logado que está solicitando os dados da turma? (Exemplo: O frontend React enviará um token JWT no cabeçalho de Autorização (Authorization Header) da requisição, ou utilizaremos um controle de sessão baseado em cookies?)
+
+R: frontend React enviará um token JWT no cabeçalho de Autorização (Authorization Header) da requisição
+
+====================
+
+P: Já temos a stack base (TypeScript, Express, React, PostgreSQL) e a segurança (JWT) definidas para o nosso PLAN.md
+. Agora, pensando na comunicação estrita entre o nosso backend e o banco de dados PostgreSQL, especialmente mantendo o rigor do Object Calisthenics e da Orientação a Objetos (onde preferimos usar o padrão Repository para encapsular a persistência):
+Qual tecnologia você prefere utilizar para o acesso a dados no backend: um ORM completo (como Prisma ou TypeORM) para mapear nossas entidades, ou um Query Builder/Driver Nativo (como Knex ou pg) para termos controle absoluto das consultas SQL nas classes de repositório?
+
+R: prefiro usar o pg para ter controle total
+
+====================
+
+P: Observando novamente o seu rascunho de interface na Foto 1
+, vemos que existe um menu dropdown (caixa de seleção) onde o professor escolhe a "Disciplina" antes de ver a tabela de alunos.
+Para que essa tela funcione de ponta a ponta, você deseja que a gente também especifique e desenvolva o endpoint da API que lista as disciplinas pertencentes ao professor logado (para preencher este dropdown), ou o escopo deste nosso primeiro projeto focará estritamente apenas no endpoint que retorna a lista de alunos (com notas, CR e faltas) assumindo que o ID da disciplina já foi selecionado?
+
+R: sim, serão necessários vários end-points, que precisam ser identificados, levantados e implementados.
+
+=====================
+
+p: O endpoint principal que retorna a listagem da turma (GET /api/disciplinas/:id/turma) deve retornar todos os alunos cadastrados de uma única vez (assumindo que turmas têm um limite seguro de alunos), ou devemos especificar uma paginação obrigatória (ex: retornar de 20 em 20 alunos) em nosso contrato OpenAPI?
+
+R: todos de uma vez
+
+=====================
+
+P: Nesta tela de consulta da Foto 1, o sistema deve listar estritamente apenas os alunos que estão com a situação "Ativa" na disciplina, ou alunos que porventura "Trancaram" (evadiram/cancelaram) a matéria ao longo do semestre também devem aparecer na listagem? (Caso os trancados apareçam, eles recebem alguma sinalização visual ou os cálculos de CR e presença são ignorados para eles?)
+
+R: sim, os trancados aparecem, mas não são calculados (CR) e deve aparecer a informação de que estão trancados.
+
+====================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
