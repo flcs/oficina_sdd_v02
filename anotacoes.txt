@@ -1,0 +1,104 @@
+
+
+
+# 0) Pre-requisito (opcional, se uv ainda nao estiver instalado)
+# [CHECK HUMANO] Confirmar se o comando uv existe no ambiente.
+uv --version
+
+# 1) Instalar CLI do Spec Kit
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+
+# criar o projeto no github.com
+
+# criar o token caso não tenha
+
+# criar diretório
+$ mkdir oficina_sdd_v02
+$ cd oficina_sdd_v02
+
+# iniciar o projeto
+$ git init .
+$ git remote add origin https://flcs:<github_token>@github.com/flcs/oficina_sdd_v02.git
+$ echo 'Projeto Oficina SDD' > README.md
+
+$ git add .
+$ git commit -m 'inicio projeto'
+$ git push -u origin main
+
+# chamar o VS Code
+code .
+
+# instalar a extensão do github copilot
+
+# logar no github
+
+# registrar como acadêmico para ter acesso ao github copilot
+
+/speckit.constitution: Para definirmos nossas regras imutáveis
+(ex: obrigatoriedade de testes, princípios SOLID, restrições do Calisthenics).
+
+/speckit.specify: Onde expandiremos as suas anotações de BDD (Scenery 1, 2 e 3)
+ para o padrão EARS/GEARS dentro de um arquivo SPEC.md estruturado
+
+# verifica instalação do Spec Kit
+$ specify version
+│         CLI Version    0.2.1                                                                                                                           │
+│    Template Version    0.2.1                                                                                                                           │
+│            Released    2026-03-11                                                                                                                      │
+│                                                                                                                                                        │
+│              Python    3.13.7                                                                                                                          │
+│            Platform    Linux                                                                                                                           │
+│        Architecture    x86_64                                                                                                                          │
+│          OS Version    #14-Ubuntu SMP PREEMPT_DYNAMIC Fri Jan  9 17:01:16 UTC 2026  
+
+# 
+$ 
+
+
+# 
+$ 
+
+
+# 
+$ 
+
+
+# 
+$ 
+
+
+# 
+$ 
+
+
+# 
+$ 
+
+
+# 
+$ 
+
+
+# 
+$ 
+
+
+# 
+$ 
+
+
+# 
+$ 
+
+
+# 
+$ 
+
+
+# 
+$ 
+
+
+# 
+$ 
+
